@@ -9,25 +9,27 @@ data MyInt = F Digit          -- as in 'final digit'
              | D Digit MyInt  -- as in 'digit'
 
 
-instance Show MyInt where
-    show (F d)    = show d
-    show (D d mi) = show d ++ show mi
+-- instance Show MyInt where
+--     show (F d)    = show d
+--     show (D d mi) = show d ++ show mi
+-- TODO this is actually wrong; should print the decimal number
 
-instance Read MyInt where
-    readsPrec _ input =
-        -- strip leading whitespace out
-        let input' = dropWhile (== ' ') input
-        in case reads input' of
-            -- if last digit, then end recursion
-            [(d :: Digit, ""  )] -> [(F d, "")]
-            [(d :: Digit, rest)] ->
-                case reads rest of
-                    -- return something only if the rest is MyInt, which implicitly recurses on `rest`
-                    [(mi :: MyInt, rest')] -> [(D d mi, rest')]
-                    -- return nothing if `rest` not MyInt
-                    _ -> []
-            -- return nothing if not Digit
-            _ -> []
+-- instance Read MyInt where
+--     readsPrec _ input =
+--         -- strip leading whitespace out
+--         let input' = dropWhile (== ' ') input
+--         in case reads input' of
+--             -- if last digit, then end recursion
+--             [(d :: Digit, ""  )] -> [(F d, "")]
+--             [(d :: Digit, rest)] ->
+--                 case reads rest of
+--                     -- return something only if the rest is MyInt, which implicitly recurses on `rest`
+--                     [(mi :: MyInt, rest')] -> [(D d mi, rest')]
+--                     -- return nothing if `rest` not MyInt
+--                     _ -> []
+--             -- return nothing if not Digit
+--             _ -> []
+-- TODO this is actually wrong; should read decimal numbers
 
 instance Eq MyInt where
     (==) (F d1)     (F d2)     = d1 == d2
