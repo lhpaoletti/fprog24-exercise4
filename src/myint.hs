@@ -72,7 +72,11 @@ findQuoRem :: Integer -> Integer -> Integer -> (Integer, Integer)
 findQuoRem remainder dividend divisor =
     if abs dividend < abs divisor
     then (remainder, dividend)
+    -- recurse according to the signs of the operands
     else if signum dividend == signum divisor
+         --  meaning:  (remainder, quotient)
+         -- examples:  3/2 => ( 1,  1) | -3/-2 => (-1, -1)
+         --           -3/2 => (-1, -1) |  3/-2 => (-1,  1)
          then findQuoRem (remainder + 1) sameSignDividend     divisor
          else findQuoRem (remainder - 1) (dividend + divisor) divisor
 
